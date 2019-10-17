@@ -10,6 +10,7 @@
     <modules>
         <module>service-authorization-server</module>
         <module>service-resource-server</module>
+        <module>official-authorization-server</module>
     </modules>
 
     <packaging>pom</packaging>
