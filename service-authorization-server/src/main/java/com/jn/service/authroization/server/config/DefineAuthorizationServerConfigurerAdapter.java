@@ -1,11 +1,9 @@
 package com.jn.service.authroization.server.config;
 
+import com.jn.service.authroization.server.service.AccountInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -19,10 +17,7 @@ public class DefineAuthorizationServerConfigurerAdapter extends AuthorizationSer
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private AccountInfoService accountInfoService;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -44,10 +39,7 @@ public class DefineAuthorizationServerConfigurerAdapter extends AuthorizationSer
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        //认证体系使用security的方式
-        endpoints.authenticationManager(authenticationManager);
-        //允许调用方式
         endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);
-        endpoints.userDetailsService(userDetailsService);
+        endpoints.userDetailsService(accountInfoService);
     }
 }
