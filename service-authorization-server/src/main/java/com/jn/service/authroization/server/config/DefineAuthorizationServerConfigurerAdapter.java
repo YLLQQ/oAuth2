@@ -1,6 +1,7 @@
 package com.jn.service.authroization.server.config;
 
 import com.jn.service.authroization.server.service.AccountInfoService;
+import com.jn.service.authroization.server.service.ClientInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,9 @@ public class DefineAuthorizationServerConfigurerAdapter extends AuthorizationSer
     @Autowired
     private AccountInfoService accountInfoService;
 
+    @Autowired
+    private ClientInfoService clientInfoService;
+
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.tokenKeyAccess("permitAll()")
@@ -28,13 +32,7 @@ public class DefineAuthorizationServerConfigurerAdapter extends AuthorizationSer
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("client")
-                .secret(bCryptPasswordEncoder.encode("secret"))
-                .authorizedGrantTypes("authorization_code", "refresh_token")
-                .scopes("All")
-                .autoApprove(true)
-                .redirectUris("http://localhost:9999/login");
+        clients.withClientDetails(clientInfoService);
     }
 
     @Override

@@ -9,6 +9,6 @@ import self.yang.mybatis.mapper.BaseMapper;
 @Mapper
 public interface AccountInfoMapper extends BaseMapper<AccountInfoDO> {
 
-    @Select("select id,username,password,enabled from account_info where username=#{username}")
+    @Select("select * from account_info where username=#{username}")
     AccountInfoDO getAccountInfoByUsername(@Param("username") String username);
 }
